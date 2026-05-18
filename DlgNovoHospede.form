@@ -1,0 +1,12 @@
+package com.mycompany.sistemareservahotel;
+
+import gui.FrSistemaReserva;
+
+public class SistemaReservaHotel {
+
+    public static void main(String[] args) {
+        FrSistemaReserva telaPrincipal = new FrSistemaReserva();
+        
+        telaPrincipal.setVisible(true);
+    }
+}

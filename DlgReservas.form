@@ -1,0 +1,85 @@
+package gerenciador;
+
+import classes.Quarto;
+import file.FilePersistence;
+import file.Serializador;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GerenteQuarto {
+
+    private ArrayList<Quarto> listaQuartos;
+
+    public GerenteQuarto() {
+        listaQuartos = new ArrayList<>();
+    }
+
+    public void adicionarQuarto(Quarto q) {
+        listaQuartos.add(q);
+    }
+
+    public void removerQuarto(int numero) {
+
+        for (int i = 0; i < listaQuartos.size(); i++) {
+
+            if (listaQuartos.get(i).getNumero() == numero) {
+                listaQuartos.remove(i);
+                break;
+            }
+        }
+    }
+
+    public String listarQuartos() {
+        return listaQuartos.toString();
+    }
+
+    public Quarto buscarQuarto(int numero) {
+
+        for (Quarto q : listaQuartos) {
+
+            if (q.getNumero() == numero) {
+                return q;
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Quarto> getListaQuarto() {
+        return listaQuartos;
+    }
+
+    public void salvarNoArquivo(String caminhoDoArquivo) {
+
+        Serializador serializador = new Serializador();
+
+        String csvData =
+                serializador.toCSVQuartos(listaQuartos);
+
+        FilePersistence filePersistence =
+                new FilePersistence();
+
+        filePersistence.saveToFile(
+                csvData,
+                caminhoDoArquivo
+        );
+    }
+
+    public void carregarDoArquivo(String caminhoDoArquivo) {
+
+        FilePersistence filePersistence =
+                new FilePersistence();
+
+        String csvData =
+                filePersistence.loadFromFile(caminhoDoArquivo);
+
+        Serializador serializador =
+                new Serializador();
+
+        List<Quarto> lista =
+                serializador.fromCSVQuartos(csvData);
+
+        this.listaQuartos =
+                new ArrayList<>(lista);
+    }
+}
